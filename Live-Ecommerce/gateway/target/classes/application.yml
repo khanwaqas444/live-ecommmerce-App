@@ -1,0 +1,69 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: product
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - StripPrefix=1
+        - id: streams
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/streams/**
+          filters:
+            - StripPrefix=1
+        - id: orders
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - StripPrefix=1
+        - id: payments
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/payments/**
+          filters:
+            - StripPrefix=1
+        - id: compliance
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/kyc/**
+          filters:
+            - StripPrefix=1
+        - id: auth
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4300,http://localhost:4301,http://localhost:4302"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+
+        - id: stream-ws
+          uri: ws://localhost:8083
+          predicates:
+            - Path=/ws/chat
+
+        - id: payments-hosted
+          uri: http://localhost:8086
+          predicates:
+            - Path=/pay/**

@@ -1,0 +1,4 @@
+com\livecommerce\auth\AuthServiceApplication.class
+com\livecommerce\auth\config\SecurityConfig.class
+com\livecommerce\auth\api\Controller.class
+com\livecommerce\auth\jwt\JwtService.class
