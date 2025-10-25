@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49542da8-3b99-48d0-b07b-af8ea69df5f1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="49542da8-3b99-48d0-b07b-af8ea69df5f1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +19,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -82,7 +80,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.OrderServiceApplication">
+  <component name="RunManager" selected="Spring Boot.ProductServiceApplication">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="live-ecommerce" />
       <method v="2">
@@ -151,6 +149,9 @@
       <workItem from="1761108338921" duration="10417000" />
       <workItem from="1761193680692" duration="19581000" />
       <workItem from="1761223095292" duration="311000" />
+      <workItem from="1761289135306" duration="3244000" />
+      <workItem from="1761371881109" duration="3767000" />
+      <workItem from="1761375762785" duration="14856000" />
     </task>
     <servers />
   </component>
