@@ -2,11 +2,17 @@ package com.livecommerce.order.service.impl;
 
 import com.livecommerce.order.client.ProductClient;
 import com.livecommerce.order.domain.*;
+import com.livecommerce.order.repository.OrderItemRepository;
 import com.livecommerce.order.repository.OrderRepository;
 import com.livecommerce.order.service.OrderService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +23,7 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
     private final ProductClient productClient;
 
     @Override
@@ -76,4 +83,48 @@ public class OrderServiceImpl implements OrderService {
         order.setUpdatedAt(OffsetDateTime.now());
         return orderRepository.save(order);
     }
+
+        @Override
+        public Order cancelOrder(UUID orderId) {
+            // 1️⃣ Fetch order
+            Order order = orderRepository.findById(orderId)
+                    .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
+            // 2️⃣ Check if already cancelled or delivered (not allowed)
+            if (order.getStatus() == OrderStatus.CANCELLED) {
+                throw new IllegalStateException("Order is already cancelled");
+            }
+            if (order.getStatus() == OrderStatus.DELIVERED) {
+                throw new IllegalStateException("Delivered orders cannot be cancelled");
+            }
+            // 3️⃣ Update status
+            order.setStatus(OrderStatus.CANCELLED);
+            // 4️⃣ (Optional) set cancellation date
+            order.setCancelledAt(LocalDateTime.now());
+            // 5️⃣ Save updated order
+            return orderRepository.save(order);
+        }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrderItemsByOrderId(UUID orderId) {
+        // ensure order exists
+        if (!orderRepository.existsById(orderId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
+        }
+
+        // perform single-statement delete via repository
+        orderItemRepository.deleteByOrderId(orderId);
+
+        // optional: update order metadata (e.g., set a status or updatedAt)
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        order.setUpdatedAt(OffsetDateTime.now());
+        // do NOT change order row (do not set deleted flag unless you want to)
+        orderRepository.save(order);
+    }
+
 }
