@@ -12,5 +12,5 @@ public interface OrderService {
     Order getOrderById(UUID orderId);
     Order cancelOrder(UUID orderId);
     Order updateOrderStatus(UUID orderId, OrderStatus status);
-    void deleteOrderItemsByOrderId(UUID orderId);
+//    void deleteOrderItemsByOrderId(UUID orderId);
 }

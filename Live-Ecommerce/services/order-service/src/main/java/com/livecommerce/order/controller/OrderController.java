@@ -47,15 +47,15 @@ public class OrderController {
         return ResponseEntity.ok(orderService.cancelOrder(orderId));
     }
 
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable UUID orderId) {
-        orderService.deleteOrderItemsByOrderId(orderId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/deleted")
-    public ResponseEntity<List<Order>> getDeletedOrders() {
-        return ResponseEntity.ok(orderService.getDeletedOrders());
-    }
+//    @DeleteMapping("/{orderId}")
+//    public ResponseEntity<Void> deleteOrder(@PathVariable UUID orderId) {
+//        orderService.deleteOrderItemsByOrderId(orderId);
+//        return ResponseEntity.noContent().build();
+//    }
+//
+//    @GetMapping("/deleted")
+//    public ResponseEntity<List<Order>> getDeletedOrders() {
+//        return ResponseEntity.ok(orderService.getDeletedOrders());
+//    }
 
 }

@@ -2,7 +2,7 @@ package com.livecommerce.order.service.impl;
 
 import com.livecommerce.order.client.ProductClient;
 import com.livecommerce.order.domain.*;
-import com.livecommerce.order.repository.OrderItemRepository;
+//import com.livecommerce.order.repository.OrderItemRepository;
 import com.livecommerce.order.repository.OrderRepository;
 import com.livecommerce.order.service.OrderService;
 import jakarta.transaction.Transactional;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
+//    private final OrderItemRepository orderItemRepository;
     private final ProductClient productClient;
 
     @Override
@@ -109,22 +109,22 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAll();
     }
 
-    @Override
-    @Transactional
-    public void deleteOrderItemsByOrderId(UUID orderId) {
-        // ensure order exists
-        if (!orderRepository.existsById(orderId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
-        }
-
-        // perform single-statement delete via repository
-        orderItemRepository.deleteByOrderId(orderId);
-
-        // optional: update order metadata (e.g., set a status or updatedAt)
-        Order order = orderRepository.findById(orderId).orElseThrow();
-        order.setUpdatedAt(OffsetDateTime.now());
-        // do NOT change order row (do not set deleted flag unless you want to)
-        orderRepository.save(order);
-    }
+//    @Override
+//    @Transactional
+//    public void deleteOrderItemsByOrderId(UUID orderId) {
+//        // ensure order exists
+//        if (!orderRepository.existsById(orderId)) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
+//        }
+//
+//        // perform single-statement delete via repository
+//        orderItemRepository.deleteByOrderId(orderId);
+//
+//        // optional: update order metadata (e.g., set a status or updatedAt)
+//        Order order = orderRepository.findById(orderId).orElseThrow();
+//        order.setUpdatedAt(OffsetDateTime.now());
+//        // do NOT change order row (do not set deleted flag unless you want to)
+//        orderRepository.save(order);
+//    }
 
 }

@@ -17,8 +17,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SQLDelete(sql = "UPDATE orders SET deleted = true, deleted_at = now() WHERE id = ?")
-@Where(clause = "deleted = false")
+//@SQLDelete(sql = "UPDATE orders SET deleted = true, deleted_at = now() WHERE id = ?")
+//@Where(clause = "deleted = false")
 public class Order {
 
   @Id
