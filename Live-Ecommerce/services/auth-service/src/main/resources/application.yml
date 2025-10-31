@@ -1,8 +1,5 @@
 spring:
-  application:
-    name: compliance-service
   config:
     import: optional:configserver:http://localhost:8888
-
-server:
-  port: 8086
+  application:
+    name: auth-service
