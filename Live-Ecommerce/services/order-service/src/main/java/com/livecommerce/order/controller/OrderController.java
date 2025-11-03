@@ -37,10 +37,22 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 
+    // ✅ PUT request for updating order status
     @PutMapping("/{orderId}/status")
-    public ResponseEntity<Order> updateOrderStatus(@PathVariable UUID orderId,
-                                                   @RequestParam OrderStatus status) {
-        return ResponseEntity.ok(orderService.updateOrderStatus(orderId, status));
+    public ResponseEntity<Order> updateOrderStatus(
+            @PathVariable UUID orderId,
+            @RequestParam("status") String status
+    ) {
+        // Convert string to enum safely
+        OrderStatus orderStatus;
+        try {
+            orderStatus = OrderStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Order updatedOrder = orderService.updateOrderStatus(orderId, orderStatus);
+        return ResponseEntity.ok(updatedOrder);
     }
 
     @PutMapping("/{orderId}/cancel")

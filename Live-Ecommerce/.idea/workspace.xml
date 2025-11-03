@@ -168,8 +168,8 @@
       <item itemvalue="Spring Boot.ComplianceServiceApplication" />
       <item itemvalue="Spring Boot.ConfigServerApplication" />
       <item itemvalue="Spring Boot.EurekaServerApplication" />
-      <item itemvalue="Spring Boot.GatewayApplication" />
       <item itemvalue="Spring Boot.OrderServiceApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
       <item itemvalue="Spring Boot.ProductServiceApplication" />
     </list>
     <recent_temporary>
@@ -211,7 +211,10 @@
       <workItem from="1761629124659" duration="19396000" />
       <workItem from="1761715318088" duration="6532000" />
       <workItem from="1761806260567" duration="19448000" />
-      <workItem from="1761887798688" duration="25539000" />
+      <workItem from="1761887798688" duration="26460000" />
+      <workItem from="1761973824378" duration="19880000" />
+      <workItem from="1762051207959" duration="13528000" />
+      <workItem from="1762145809916" duration="1106000" />
     </task>
     <servers />
   </component>
