@@ -1,50 +1,90 @@
 package com.reservation_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "reservations")
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, updatable = false)
+    // Unique booking reference (required by your DB)
+    @Column(name = "booking_id", nullable = false, unique = true)
     private String bookingId;
 
-    @Column(nullable = false)
+    // -----------------------
+    // Customer Information
+    // -----------------------
     private String customerName;
-
-    @Column(nullable = false)
     private String customerPhone;
+    private String customerEmail;
 
-    @Column(nullable = false)
-    private String productName;
+    // -----------------------
+    // Reservation Details
+    // -----------------------
+    private LocalDate reservationDate;
+    private String timeSlot;
+    private Integer people;
 
-    private int people;
+    private String status; // PENDING, CONFIRMED, CANCELLED, COMPLETED, NO_SHOW
+    private String bookingSource; // manual / online / walk-in / phone
+    private Double estimatedValue;
 
-    @Column(nullable = false)
-    private String status; // Pending, Confirmed, Cancelled
+    // -----------------------
+    // Linked Products (services/items)
+    // -----------------------
+    @ElementCollection
+    @CollectionTable(
+            name = "reservation_products",
+            joinColumns = @JoinColumn(name = "reservation_id")
+    )
+    @Column(name = "product_id")
+    private List<Long> productIds;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime startTime;
+    // -----------------------
+    // Optional Fields
+    // -----------------------
+    @Column(length = 2000)
+    private String specialRequests;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime endTime;
+    @Column(length = 2000)
+    private String internalNotes;
 
-    @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private boolean deleted = false;
+
     private LocalDateTime createdAt;
-}
+    private LocalDateTime updatedAt;
 
+    // -----------------------
+    // Auto Lifecycle Hooks
+    // -----------------------
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = createdAt;
+
+        if (status == null || status.isBlank()) {
+            status = "PENDING";
+        }
+
+        // Generate unique booking ID if missing
+        if (bookingId == null || bookingId.isBlank()) {
+            bookingId = "BK-" + System.currentTimeMillis();
+        }
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+}
